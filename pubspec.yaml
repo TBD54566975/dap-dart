@@ -3,8 +3,6 @@ description: Dart SDK for Decentralized Agnostic Paytags (DAPs).
 version: 0.1.0
 repository: https://github.com/TBD54566975/dap-dart
 
-publish_to: none
-
 environment:
   sdk: ^3.3.4
 
@@ -12,11 +10,7 @@ environment:
 dependencies:
   http: ^1.2.0
   typeid: ^1.0.1
-  web5:
-    git:
-      url: https://github.com/TBD54566975/web5-dart.git
-      path: packages/web5
-      ref: main
+  web5: ^0.2.0
 
 
 dev_dependencies:
