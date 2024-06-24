@@ -85,12 +85,3 @@ class Dap {
         (codeUnit >= 123 && codeUnit <= 126);
   }
 }
-
-class DapResolver {
-  /// default constructor with http client and a web5 did resolver
-  /// can construct yourself for mocking purposes etc.
-  /// getRegistryEndpoint() -> resolve registry did, find DAPRegistry service endpoint
-  /// dereferenceHandle() -> makes GET request to registry endpoint to get DAP's DID
-  /// resolveDid() -> resolve DAP's DID, get back did document
-  /// getMoneyAddresses(dap) -> getRegistryEndpoint() -> dereferenceHandle() -> resolveDid() -> parse out money addresses from did document -> return list of money addrrsses
-}
