@@ -5,6 +5,7 @@ import 'package:dap/src/registration_request.dart';
 import 'package:dap/src/money_address.dart';
 import 'package:http/http.dart' as http;
 import 'package:web5/web5.dart';
+import 'package:collection/collection.dart';
 
 class DapResolver {
   http.Client client;
@@ -24,14 +25,17 @@ class DapResolver {
           'Failed to resolve registry DID: ${registryDidResolution.didResolutionMetadata.error}');
     }
 
-    final registryServices = registryDidResolution.didDocument!.service ?? [];
-    final dapRegistryService = registryServices.firstWhere(
-      (service) => service.type == 'DAPRegistry',
-      orElse: () => throw DapResolutionException(
-          'Registry DID does not have a DAPRegistry service'),
-    );
+    final dapRegistryService = registryDidResolution.didDocument?.service
+        ?.firstWhereOrNull((service) => service.type == 'DAPRegistry');
 
-    if (dapRegistryService.serviceEndpoint.isEmpty) {
+    if (dapRegistryService == null) {
+      throw DapResolutionException(
+          'Registry DID does not have a DAPRegistry service');
+    }
+
+    final serviceEndpoint = dapRegistryService.serviceEndpoint.firstOrNull;
+
+    if (serviceEndpoint == null) {
       throw DapResolutionException(
           'DAPRegistry service does not have a service endpoint');
     }
@@ -39,7 +43,7 @@ class DapResolver {
     Uri registryEndpoint;
 
     try {
-      registryEndpoint = Uri.parse(dapRegistryService.serviceEndpoint.first);
+      registryEndpoint = Uri.parse(serviceEndpoint);
     } on FormatException {
       throw DapResolutionException(
           'Invalid service endpoint in DAPRegistry service');
@@ -76,7 +80,7 @@ class DapResolver {
           'Failed to resolve DAP DID: ${dapDidResolution.didResolutionMetadata.error}');
     }
 
-    final dapDidServices = dapDidResolution.didDocument!.service ?? [];
+    final dapDidServices = dapDidResolution.didDocument?.service ?? [];
     List<MoneyAddress> moneyAddresses = [];
 
     for (var service in dapDidServices) {
@@ -94,8 +98,10 @@ class DapResolver {
     return DapResolutionResult(
       dap: dap,
       dapDid: dereferencedDap.did,
-      dapDidDocument: dapDidResolution.didDocument!,
-      registryDidDocument: registryDidResolution.didDocument!,
+      dapDidDocument: dapDidResolution.didDocument ??
+          DidDocument(id: dereferencedDap.did.uri),
+      registryDidDocument: registryDidResolution.didDocument ??
+          DidDocument(id: dereferencedDap.did.uri),
       registryEndpoint: registryEndpoint,
       moneyAddresses: moneyAddresses,
     );
