@@ -11,8 +11,18 @@ class DapResolver {
   http.Client client;
   DidResolver didResolver;
 
-  DapResolver(this.didResolver, {http.Client? client})
-      : client = client ?? http.Client();
+  static final _defaultMethodResolvers = [
+    DidJwkResolver(),
+    DidDhtResolver(),
+    DidWebResolver(),
+  ];
+
+  DapResolver({
+    DidResolver? didResolver,
+    http.Client? client,
+  })  : didResolver = didResolver ??
+            DidResolver(methodResolvers: _defaultMethodResolvers),
+        client = client ?? http.Client();
 
   Future<List<MoneyAddress>> getMoneyAddresses(Dap dap) async {
     throw UnimplementedError();
