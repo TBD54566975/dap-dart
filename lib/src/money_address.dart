@@ -5,11 +5,16 @@
 /// More info [here](https://github.com/TBD54566975/dap?tab=readme-ov-file#money-address)
 class MoneyAddress {
   final String currency;
-  final String css;
+  final String protocol;
+  final String pss;
 
-  String get urn => 'urn:$currency:$css';
+  String get urn => 'urn:$currency:$protocol:$pss';
 
-  MoneyAddress({required this.currency, required this.css});
+  MoneyAddress({
+    required this.currency,
+    required this.protocol,
+    required this.pss,
+  });
 
   factory MoneyAddress.parse(String input) {
     if (!input.startsWith('urn:')) {
@@ -17,7 +22,7 @@ class MoneyAddress {
     }
 
     final urnless = input.substring(4);
-    final delimIdx = urnless.indexOf(':');
+    var delimIdx = urnless.indexOf(':');
     if (delimIdx == -1) {
       throw FormatException(
           'Invalid money address. Expected urn:[currency]:[css]. Got $input');
@@ -26,9 +31,19 @@ class MoneyAddress {
     final nid = urnless.substring(0, delimIdx);
     final nss = urnless.substring(delimIdx + 1);
 
+    delimIdx = nss.indexOf(':');
+    if (delimIdx == -1) {
+      throw FormatException(
+          'Invalid money address. Expected nss to contain protocol. Got $nss');
+    }
+
+    final protocol = nss.substring(0, delimIdx);
+    final pss = nss.substring(delimIdx + 1);
+
     return MoneyAddress(
       currency: nid,
-      css: nss,
+      protocol: protocol,
+      pss: pss,
     );
   }
 

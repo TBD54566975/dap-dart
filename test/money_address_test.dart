@@ -14,34 +14,26 @@ void main() {
     final testCases = [
       Vector(
         input: 'urn:usdc:eth:0x2345y7432',
-        expected: MoneyAddress(
-          currency: 'usdc',
-          css: 'eth:0x2345y7432',
-        ),
+        expected:
+            MoneyAddress(currency: 'usdc', protocol: 'eth', pss: '0x2345y7432'),
         err: false,
       ),
       Vector(
         input: 'urn:btc:addr:m12345677axcv2345',
         expected: MoneyAddress(
-          currency: 'btc',
-          css: 'addr:m12345677axcv2345',
-        ),
+            currency: 'btc', protocol: 'addr', pss: 'm12345677axcv2345'),
         err: false,
       ),
       Vector(
         input: 'urn:btc:lnurl:https://someurl.com',
         expected: MoneyAddress(
-          currency: 'btc',
-          css: 'lnurl:https://someurl.com',
-        ),
+            currency: 'btc', protocol: 'lnurl', pss: 'https://someurl.com'),
         err: false,
       ),
       Vector(
         input: 'urn:btc:spaddr:sp1234abcd5678',
         expected: MoneyAddress(
-          currency: 'btc',
-          css: 'spaddr:sp1234abcd5678',
-        ),
+            currency: 'btc', protocol: 'spaddr', pss: 'sp1234abcd5678'),
         err: false,
       ),
     ];
@@ -54,7 +46,7 @@ void main() {
         } else {
           final actual = MoneyAddress.parse(testCase.input);
           expect(actual.currency, testCase.expected.currency);
-          expect(actual.css, testCase.expected.css);
+          expect(actual.protocol, testCase.expected.protocol);
           expect(actual.urn, testCase.input);
         }
       });
