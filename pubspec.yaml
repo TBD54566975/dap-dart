@@ -8,6 +8,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  collection: ^1.18.0
   http: ^1.2.0
   typeid: ^1.0.1
   web5: ^0.2.0
