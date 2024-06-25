@@ -12,7 +12,6 @@ class DapResolver {
   DidResolver didResolver;
 
   static final _defaultMethodResolvers = [
-    DidJwkResolver(),
     DidDhtResolver(),
     DidWebResolver(),
   ];
