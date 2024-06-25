@@ -1,4 +1,4 @@
 library;
 
-export 'src/dap/dap.dart';
-export 'src/dap/dap_resolver.dart';
+export 'src/dap.dart';
+export 'src/dap_resolver.dart';
