@@ -1,6 +1,5 @@
 import 'package:dap/dap.dart';
 import 'package:test/test.dart';
-import 'package:web5/web5.dart';
 
 void main() {
   group('DapResolver.resolve', () {
@@ -8,9 +7,7 @@ void main() {
       final dap = Dap.parse('@moegrammer/didpay.me');
 
       // TODO: use mocks
-      final resolver = DapResolver(DidResolver(
-        methodResolvers: [DidWebResolver()],
-      ));
+      final resolver = DapResolver();
 
       final result = await resolver.resolve(dap);
 
