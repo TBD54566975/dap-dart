@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dap/src/dap/dap.dart';
+import 'package:dap/src/dap.dart';
 import 'package:dap/src/registration_request.dart';
 import 'package:dap/src/money_address.dart';
 import 'package:http/http.dart' as http;
