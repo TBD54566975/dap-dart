@@ -1,5 +1,4 @@
 import 'package:dap/dap.dart';
-import 'package:dap/src/dap_resolver.dart';
 import 'package:test/test.dart';
 import 'package:web5/web5.dart';
 
